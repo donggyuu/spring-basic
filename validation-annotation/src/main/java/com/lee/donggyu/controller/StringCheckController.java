@@ -10,7 +10,7 @@ import com.lee.donggyu.form.StringCheckForm;
 @Controller
 public class StringCheckController {
 	
-	@RequestMapping("/")
+	@RequestMapping("/String")
 	public String CommentCheck(Model model) {
 		
 		String badCommnet = "sheet";
