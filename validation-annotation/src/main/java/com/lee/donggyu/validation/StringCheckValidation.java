@@ -6,6 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import com.lee.donggyu.annotation.StringCheck;
 
 public class StringCheckValidation implements ConstraintValidator<StringCheck, String> {
+	
 	private CaseMode caseMode;
 
 	@Override
@@ -29,8 +30,8 @@ public class StringCheckValidation implements ConstraintValidator<StringCheck, S
 		}
 		
 		if(!isValid) {
-			// constraintContext.disableDefaultConstraintViolation();
-            // constraintContext.buildConstraintViolationWithTemplate( "{com.lee.donggyu.annotation.StringCheck.message}"  ).addConstraintViolation();
+			constraintContext.disableDefaultConstraintViolation();
+			constraintContext.buildConstraintViolationWithTemplate( "{com.lee.donggyu.annotation.StringCheck.message}"  ).addConstraintViolation();
 		}
 		return isValid;
 		//

@@ -5,32 +5,27 @@ import static java.lang.annotation.RetentionPolicy.*;
 
 import java.lang.annotation.*;
 import java.lang.annotation.Target;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.ConstraintTarget;
 import com.lee.donggyu.validation.StringCheckValidation;
 import com.lee.donggyu.validation.*;
 
-
+/**
+ * 
+ * Whether user's input id already existed in DB.
+ *
+ */
+//TODO @이름 바꾸기, isIDExisted 등 
 @Documented
 @Constraint(validatedBy = { StringCheckValidation.class })
-// @Target({ ElementType.FIELD }) // TODO ElementType없이 작성하는 방법!
-@Target({ METHOD, FIELD, ANNOTATION_TYPE })
-@Retention(RetentionPolicy.RUNTIME) // TODO RetentionPolicy없이 작성하는 방법!
+@Target({ METHOD, FIELD, ANNOTATION_TYPE })  // java.lang.annotation.ElementType을 import안하면 ElementType.FIELD
+@Retention(RUNTIME) 							// java.lang.annotation.RetentionPolicy를 import안하면 RetentionPolicy.RUNTIME
 public @interface StringCheck {
-	String message() default "{com.lee.donggyu.annotation!!!}";
+	String message() default "{This ID is already exsited}";
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
 		
 	CaseMode value();
-	
-//	@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE })
-//	@Retention(RetentionPolicy.RUNTIME)
-//	@Documented
-//	@interface List {
-//		StringCheck[] value();
-//	}
 }
