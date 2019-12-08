@@ -3,9 +3,9 @@ package com.example.restfulapi.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.restfulapi.entity.Author;
+import com.example.restfulapi.entity.Essay;
 
 @Repository
-public interface AuthorRepository extends CrudRepository<Author, Long>{
+public interface EssayRepository extends CrudRepository<Essay, Long> {
 
 }
