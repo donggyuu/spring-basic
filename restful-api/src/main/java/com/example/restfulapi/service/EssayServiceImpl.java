@@ -12,11 +12,11 @@ import com.example.restfulapi.repository.EssayRepository;
 @Service
 public class EssayServiceImpl implements EssayService {
 
-    AuthorRepository authorRepository;
-    EssayRepository essayRepository;
+    private AuthorRepository authorRepository;
+    private EssayRepository essayRepository;
 
     @Autowired
-    private EssayServiceImpl(
+    public EssayServiceImpl(
             AuthorRepository authorRepository, EssayRepository essayRepository) {
         this.authorRepository = authorRepository;
         this.essayRepository = essayRepository;

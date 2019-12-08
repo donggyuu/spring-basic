@@ -11,7 +11,7 @@ import com.example.restfulapi.repository.AuthorRepository;
 @RequestMapping("/authors")
 public class AuthorController {
 
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     @Autowired
     public AuthorController(AuthorRepository authorRepository) {
