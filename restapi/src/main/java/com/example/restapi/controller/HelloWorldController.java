@@ -4,7 +4,9 @@ import com.example.restapi.bean.HelloWorldBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
+/*
+RestAPI의 동작을 확인하는 기본적인 Controller
+ */
 @RestController
 public class HelloWorldController {
 

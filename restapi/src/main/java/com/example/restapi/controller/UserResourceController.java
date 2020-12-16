@@ -1,6 +1,7 @@
 package com.example.restapi.controller;
 
 import com.example.restapi.entity.User;
+import com.example.restapi.exception.UserNotFoundException;
 import com.example.restapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+/*
+Json형태로 get,post하는 Controller
+ */
 @RestController
 public class UserResourceController {
 
@@ -23,7 +27,13 @@ public class UserResourceController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id) {
-        return  service.findOne(id);
+        User user = service.findOne(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("user not found");
+        }
+
+        return user;
     }
 
     @PostMapping("/users")
