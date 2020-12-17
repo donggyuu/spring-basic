@@ -1,7 +1,9 @@
 package com.example.restapi.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +32,21 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
      */
     @ExceptionHandler({Exception.class}) // Test니까 일단 에러 걸리면 여기서 받는 것으로 설정.
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse errorDetails = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /*
+    ResponseEntityExceptionHandler의 handleMethodArgumentNotValid를 override해서 validation예외 작성
+     */
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), ex.getBindingResult().toString());
+        // BindingResult로부터 원하는 에러 정보를 뽑기 가능
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }
