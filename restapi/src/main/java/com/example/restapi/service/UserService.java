@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 /*
 User를 get, post하는 service class
@@ -56,8 +57,18 @@ public class UserService {
     }
 
 
+    public  User deleteById(int id) {
+        Iterator<User> it = users.iterator();
 
+        while (it.hasNext()) {
+            User user = it.next();
+            if (user.getId() == id) {
+                it.remove();
+                return  user; // 꼭 안필요한듯?
+            }
+        }
 
-
+        return  null;
+    }
 
 }

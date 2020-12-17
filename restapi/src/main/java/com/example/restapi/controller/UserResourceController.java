@@ -30,7 +30,7 @@ public class UserResourceController {
         User user = service.findOne(id);
 
         if (user == null) {
-            throw new UserNotFoundException("user not found");
+            throw new UserNotFoundException("id : " + id);
         }
 
         return user;
@@ -48,6 +48,16 @@ public class UserResourceController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteById(@PathVariable  int id) {
+        User user = service.deleteById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("id : " + id);
+        }
+
     }
 
 }
