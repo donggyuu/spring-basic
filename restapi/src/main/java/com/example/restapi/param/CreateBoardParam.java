@@ -1,9 +1,9 @@
-package com.example.restapi.form;
+package com.example.restapi.param;
 
 import lombok.Getter;
 
 @Getter
-public class CreateBoardForm {
+public class CreateBoardParam {
 
     private String userName;
 
