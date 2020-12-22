@@ -1,9 +1,11 @@
 package com.example.restapi.entity;
 
 import com.example.restapi.form.CreateBoardForm;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class Board {
 
     private Long sequence;
