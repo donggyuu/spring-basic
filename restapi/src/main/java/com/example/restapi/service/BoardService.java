@@ -1,11 +1,14 @@
 package com.example.restapi.service;
 
 import com.example.restapi.entity.Board;
+import com.example.restapi.entity.User;
 import com.example.restapi.param.CreateBoardParam;
+import com.example.restapi.param.EditBoardParam;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -37,7 +40,53 @@ public class BoardService {
         return board;
     }
 
+
     public List<Board> getBoardList() {
         return boardList;
     }
+
+
+    public Board getBoard(int sequence) {
+
+        for (Board board: boardList) {
+            if (board.getSequence() == sequence) {
+                return  board;
+            }
+        }
+
+        return null;
+    }
+
+
+    public Board editBoard(int sequence, EditBoardParam param) {
+
+        for (Board board: boardList) {
+            if (board.getSequence() == sequence) {
+                board.setContent(param.getContent());
+                return  board;
+            }
+        }
+
+        return null;
+    }
+
+    public Board deleteBoard(int sequence) {
+
+        // TODO : Iterator의 개념 및 사용법 정리
+        // for문으로도 해결 가능한데 굳이 Iterator를 써야?
+        // 아마 remove()로 쉽게 해결하기 위함일듯
+        Iterator<Board> boardIterator = boardList.iterator();
+
+        while (boardIterator.hasNext()) {
+            Board board = boardIterator.next();
+            if (board.getSequence() == sequence) {
+                boardIterator.remove();
+                return  board;
+            }
+        }
+
+        return  null;
+    }
+
+
 }
