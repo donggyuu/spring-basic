@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -29,7 +30,7 @@ public class BoardController {
     // TODO : consumes = MediaTypes.HAL_JSON_VALUE 은 반드시 필요한가?
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
     // @PostMapping(produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity createBoard(@RequestBody CreateBoardParam param) throws Exception {
+    public ResponseEntity createBoard(@RequestBody @Validated CreateBoardParam param) throws Exception {
 
         Board board = boardService.createBoard(param);
 
@@ -52,17 +53,19 @@ public class BoardController {
 
         Board board = boardService.getBoard(sequence);
 
-        if (board == null) {
-            return ResponseEntity.notFound().build(); // TODO .build()는 뭐고 언제 붙이는거지?
-        } else {
-            return ResponseEntity.ok(board);
-        }
+        return ResponseEntity.ok(board);
+
+//        if (board == null) {
+//            return ResponseEntity.notFound().build(); // TODO .build()는 뭐고 언제 붙이는거지?
+//        } else {
+//            return ResponseEntity.ok(board);
+//        }
 
     }
 
 
     @PostMapping(value = "/{sequence}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity editBoard(@PathVariable("sequence") int sequence, @RequestBody EditBoardParam param) {
+    public ResponseEntity editBoard(@PathVariable("sequence") int sequence, @RequestBody @Validated EditBoardParam param) {
 
         Board board = boardService.editBoard(sequence, param);
 

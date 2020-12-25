@@ -1,5 +1,7 @@
-package com.example.restapi.exception;
+package com.example.restapi.handler;
 
+import com.example.restapi.exception.UserExceptionResponse;
+import com.example.restapi.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
      */
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<Object> handleNotExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse errorDetails = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        UserExceptionResponse errorDetails = new UserExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
@@ -32,9 +34,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
      */
     @ExceptionHandler({Exception.class}) // Test니까 일단 에러 걸리면 여기서 받는 것으로 설정.
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        UserExceptionResponse userExceptionResponse = new UserExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(userExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /*
@@ -44,9 +46,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), ex.getBindingResult().toString());
+        UserExceptionResponse userExceptionResponse = new UserExceptionResponse(new Date(), ex.getMessage(), ex.getBindingResult().toString());
         // BindingResult로부터 원하는 에러 정보를 뽑기 가능
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userExceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }
