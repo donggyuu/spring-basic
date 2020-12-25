@@ -2,13 +2,18 @@ package com.example.restapi.handler;
 
 import com.example.restapi.exception.BoardExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /*
 CustomizedResponseEntityExceptionHandler 처럼 extends 해서 작성할 수도 있다.
@@ -37,6 +42,31 @@ public class BoardExceptionHandler {
     }
 
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class) // error log로부터 해당 exception이 발생한 것을 알아서 처리.
+    public BoardExceptionResponse handlerMethodArgumentNotValidException(
+            MethodArgumentNotValidException e, HttpServletRequest request) {
+
+        // console에 출력
+        log.error("===================== Handler MethodArgumentNotValidException =====================");
+        e.printStackTrace();
+
+        return getExceptionResponseFromBindingResult(e.getBindingResult(), HttpStatus.BAD_REQUEST, "입력값이 유효하지 않습니다.");
+
+    }
+
+
+    // Create/EditBoardParam의 @Length, @NotEmpty를 response body로 응답하기 위한 method
+    private BoardExceptionResponse getExceptionResponseFromBindingResult(
+            BindingResult bindingResult, HttpStatus httpStatus, String message) {
+
+        List<String> errorDetails = bindingResult.getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)// TODO : 뭐에 쓰는 거지??
+                .collect(Collectors.toList());
+
+        return new BoardExceptionResponse(httpStatus, message, errorDetails);
+    }
 
 
 }

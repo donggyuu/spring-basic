@@ -4,6 +4,7 @@ import com.example.restapi.entity.Board;
 import com.example.restapi.entity.User;
 import com.example.restapi.param.CreateBoardParam;
 import com.example.restapi.param.EditBoardParam;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
