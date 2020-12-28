@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,13 +39,13 @@ public class BoardController {
         Board board = boardService.createBoard(param);
 
         // TODO : UserResourceController의 방식과 비교해서 작성
-        URI uri = linkTo(BoardController.class).slash(board.getSequence()).toUri();
+        URI uri = getLinkAddress().slash(board.getSequence()).toUri();
 
         EntityModel<Board> entityModel = EntityModel.of(board,
-                linkTo(BoardController.class).slash(board.getSequence()).withSelfRel(),
-                linkTo(BoardController.class).slash(board.getSequence()).withRel("get"),
-                linkTo(BoardController.class).slash(board.getSequence()).withRel("delete"),
-                linkTo(BoardController.class).slash(board.getSequence()).withRel("edit"));
+                getLinkAddress().slash(board.getSequence()).withSelfRel(),
+                getLinkAddress().slash(board.getSequence()).withRel("get"),
+                getLinkAddress().slash(board.getSequence()).withRel("delete"),
+                getLinkAddress().slash(board.getSequence()).withRel("edit"));
 
         return ResponseEntity.created(uri).body(entityModel);
         // return ResponseEntity.created(uri).body(board);
@@ -60,14 +60,14 @@ public class BoardController {
         List<Board> boardList = boardService.getBoardList();
 
         List<EntityModel> collect =  boardList.stream().map(board -> EntityModel.of(
-                board, linkTo(BoardController.class).slash(board.getSequence()).withRel("get"),
-                linkTo(BoardController.class).slash(board.getSequence()).withRel("delete")))
+                board, getLinkAddress().slash(board.getSequence()).withRel("get"),
+                getLinkAddress().slash(board.getSequence()).withRel("delete")))
                 .collect(Collectors.toList());
 
         // TODO : 왜 이렇게 굳이 하는지는 아래 링크를 보고 다시 이해!
         // https://sas-study.tistory.com/369
         // 리스트를 CollectionModel로 변환 => response body에 담는다.
-        CollectionModel entityModel = CollectionModel.of(collect, linkTo(BoardController.class).withSelfRel());
+        CollectionModel entityModel = CollectionModel.of(collect, getLinkAddress().withSelfRel());
         return ResponseEntity.ok(entityModel);
 
     }
@@ -113,5 +113,9 @@ public class BoardController {
         }
 
         return ResponseEntity.ok(board);
+    }
+
+    private WebMvcLinkBuilder getLinkAddress() {
+        return linkTo(BoardController.class);
     }
 }
