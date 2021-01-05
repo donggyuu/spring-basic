@@ -3,8 +3,8 @@ package com.example.restapi.bean;
 import lombok.Data;
 
 /*
-객체를 return하면 Jackson에 의해 Json형태로 get됨을 보기 위한 Bean
-HelloWorldController와 연관
+HelloWorldController에서 return할 객체를 정의하는 class
+- 직접 bean을 설정하는 방법에 대한 읽을거리:https://cbw1030.tistory.com/54
  */
 @Data
 public class HelloWorldBean {
@@ -17,7 +17,7 @@ public class HelloWorldBean {
 
     @Override
     public String toString() {
-        return String.format("hello world bean [message=%s]", message);
+        return String.format("return message : [message=%s]", message);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.restapi.entity;
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -12,10 +11,10 @@ public class User {
 
     private Integer id;
 
-    @Size(min = 2, message = "please input over 2 characters")
+    @Size(min = 2, message = "minimum name size is 2")
     private String name;
 
-    @Past
+    @Past // 현재시간보다 과거
     private Date birthDate;
 
     public User(Integer id, String name, Date birthDate) {
@@ -25,7 +24,6 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    // 자동 Override : control+i
     @Override
     public String toString() {
         return String.format("User [id=%s, name=%s, birthDate=%s]", id, name, birthDate);
