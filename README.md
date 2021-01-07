@@ -2,7 +2,10 @@
 spring boot의 기본 기능을 모듈별로 나누어 구현한 repository
 
 ## restapi
-location : restapi/src/main/java/com/example/restapi/
+location : restapi/src/main/java/com/example/restapi/  
+관련문서:
+[REST API에서 HATEOAS란?](https://donggyuu.github.io/development/implementing-hateoas-in-spring/)
+
 
 ### 1. hellow world project
 rest-api의 응답만을 확인하는 기본적인 구성
